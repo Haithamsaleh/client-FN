@@ -5,8 +5,8 @@ import { UploadOutlined } from '@ant-design/icons';
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router";
-import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
-import { Avatar, Card, Skeleton, Switch  } from 'antd';
+import { EditOutlined, EllipsisOutlined, SettingOutlined, DeleteOutlined , CheckOutlined, DownloadOutlined } from '@ant-design/icons';
+import { Avatar, Card, Skeleton, Switch ,Button,   } from 'antd';
 
 const BASE_URL = 'http://localhost:4000';
 
@@ -38,11 +38,25 @@ console.log(result.data);
       console.log(error);
     }
   };
+
+  const taskdone = async (id) => {
+    const res = await axios.put(`${BASE_URL}/task/${id}`, {
+    });
+    getTask();
+  };
+
+
+
+
+
+
 return (
   <>
-  
+        <Button type="primary" shape="round" icon={<DownloadOutlined />}  />
+        <hr/>
+
   {Task.map((item, I) => {
-    
+    // console.log(item._id);
     if (item.complete == false && item.isdone == false) {
       return <h2 key={I}>
            <h2>name: {item.task}</h2>
@@ -60,6 +74,15 @@ return (
             <h2 style={{color: "red"}}>date: {item.date}</h2>
             <p style={{color: "red"}}>{item.importance}</p>
             
+            <Button icon={<CheckOutlined style={{ color: "white" }}/>}
+
+style={{ background: "green", borderColor: "white" }}
+onClick={() => {
+  taskdone(item._id);
+  }}
+  
+/>
+
  
 
 
@@ -72,4 +95,4 @@ return (
   );
   };
   export default Home;
-  // stoped here 
+  //stoped here 
