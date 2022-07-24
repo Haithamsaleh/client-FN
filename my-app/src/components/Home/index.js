@@ -16,6 +16,10 @@ const Home = () => {
   const { id } = useParams();
   const [Task, setTask] = useState([]);
 
+  const [tasks, setTasks] = useState("");
+  const [completeBy, setCompleteBy] = useState("");
+  const [importance, setImportance] = useState("");
+
 
 
   
@@ -26,7 +30,37 @@ const Home = () => {
   
   
 
-
+const newTask = async () => {
+  try { 
+    await axios.post(`${BASE_URL}/newtask`,
+    {
+      task: tasks,
+      completeBy: completeBy,
+      importance: importance,
+    },
+      //{
+      // headers :{
+      //   Authorization: `Bearer ${state.token}`,
+      // }
+    )
+    Swal.fire({
+      position: "center",
+      icon: "success",
+      title: "task successfule ",
+      showConfirmButton: false,
+      timer: 2500,
+    });
+    navigate(`/`);
+  } catch (error) {
+    Swal.fire({
+      position: "center",
+      icon: "error",
+      title: "Opss...! ,something wrong",
+      showConfirmButton: false,
+      timer: 2500,
+    });
+  }
+}
 
   
   const getTask = async (id) => {
@@ -45,7 +79,11 @@ console.log(result.data);
     getTask();
   };
 
-
+const  delTask = async (id) => { 
+  const res = await axios.delete(`${BASE_URL}/deltasks/${id}`,{
+  });
+  getTask();
+}; 
 
 
 
@@ -82,6 +120,14 @@ onClick={() => {
   }}
   
 />
+<Button icon={<DeleteOutlined style={{ color: "white" }}/>}
+
+style={{ background: "red", borderColor: "white" }}
+onClick={() => {
+  delTask(item._id);
+  }}
+  
+/>
 
  
 
@@ -95,4 +141,4 @@ onClick={() => {
   );
   };
   export default Home;
-  //stoped here 
+//stoped here need to make  form for addtask 
