@@ -6,7 +6,8 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router";
 import { EditOutlined, EllipsisOutlined, SettingOutlined, DeleteOutlined , CheckOutlined, DownloadOutlined } from '@ant-design/icons';
-import { Avatar, Card, Skeleton, Switch ,Button,   } from 'antd';
+import { Avatar, Card, Skeleton, Switch ,Button,  Drawer , Input } from 'antd';
+import './style.css'
 
 const BASE_URL = 'http://localhost:4000';
 
@@ -15,6 +16,9 @@ const BASE_URL = 'http://localhost:4000';
 const Home = () => {
   const { id } = useParams();
   const [Task, setTask] = useState([]);
+
+  const [visible, setVisible] = useState(false);
+
 
   const [tasks, setTasks] = useState("");
   const [completeBy, setCompleteBy] = useState("");
@@ -28,7 +32,13 @@ const Home = () => {
       getTask();
     },[]);
   
+    const showDrawer = () => {
+      setVisible(true);
+    };
   
+    const onClose = () => {
+      setVisible(false);
+    };
 
 const newTask = async () => {
   try { 
@@ -90,6 +100,39 @@ const  delTask = async (id) => {
 
 return (
   <>
+   <div className="site-drawer-render-in-current-wrapper">
+      Render in this
+      <div
+        style={{
+          marginTop: 16,
+        }}
+      >
+        <Button type="primary" onClick={showDrawer}>
+          Open
+        </Button>
+      </div>
+      <Drawer
+        title="Basic Drawer"
+        placement="right"
+        closable={false}
+        onClose={onClose}
+        visible={visible}
+        getContainer={false}
+        width={'100%'}
+        style={{
+          position: 'absolute',
+        }}
+      >
+<Input
+                    bg="white"
+                      id="text"
+                      type="text"
+                      onChange={(e) => setTitle(e.target.value)}
+                    />        <Button type="primary" onClick={onClose}>
+        Close
+        </Button>
+      </Drawer>
+    </div>
         <Button type="primary" shape="round" icon={<DownloadOutlined />}  />
         <hr/>
 
