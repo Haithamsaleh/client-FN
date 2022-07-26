@@ -6,8 +6,10 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router";
 import { EditOutlined, EllipsisOutlined, SettingOutlined, DeleteOutlined , CheckOutlined, DownloadOutlined } from '@ant-design/icons';
-import { Avatar, Card, Skeleton, Switch ,Button,  Drawer , Input } from 'antd';
+import { Avatar, Card, Skeleton, Switch ,Button,  Drawer , Input , DatePicker} from 'antd';
 import './style.css'
+import Swal from "sweetalert2";
+
 
 const BASE_URL = 'http://localhost:4000';
 
@@ -60,7 +62,7 @@ const newTask = async () => {
       showConfirmButton: false,
       timer: 2500,
     });
-    navigate(`/`);
+
   } catch (error) {
     Swal.fire({
       position: "center",
@@ -127,23 +129,56 @@ return (
                     bg="white"
                       id="text"
                       type="text"
-                      onChange={(e) => setTitle(e.target.value)}
-                    />        <Button type="primary" onClick={onClose}>
+                      onChange={(e) => setTasks(e.target.value)}
+                    />    
+                      <DatePicker  onChange={(e) => setCompleteBy(e.target)} />
+                   <Input
+                    bg="white"
+                      id="text"
+                      type="text"
+                      onChange={(e) => setImportance(e.target.value)}
+                    />  
+                        <Button type="primary" onClick={onClose}>
         Close
         </Button>
+        <Button
+                  onClick={newTask}
+                >
+                  {" "}
+                  Post
+                </Button>
       </Drawer>
     </div>
         <Button type="primary" shape="round" icon={<DownloadOutlined />}  />
         <hr/>
 
   {Task.map((item, I) => {
+    
     // console.log(item._id);
     if (item.complete == false && item.isdone == false) {
       return <h2 key={I}>
            <h2>name: {item.task}</h2>
             <h2>date: {item.date}</h2>
             <p>{item.importance}</p>
-            <hr/>
+            
+        <Button icon={<CheckOutlined style={{ color: "white" }}/>}
+
+style={{ background: "green", borderColor: "white" }}
+onClick={() => {
+  taskdone(item._id);
+}}
+
+/>
+<Button icon={<DeleteOutlined style={{ color: "white" }}/>}
+
+style={{ background: "red", borderColor: "white" }}
+onClick={() => {
+  delTask(item._id);
+}}
+
+/>
+<hr/>
+
       </h2>;
     }else{
         return (
@@ -155,30 +190,23 @@ return (
             <h2 style={{color: "red"}}>date: {item.date}</h2>
             <p style={{color: "red"}}>{item.importance}</p>
             
-            <Button icon={<CheckOutlined style={{ color: "white" }}/>}
+            
 
-style={{ background: "green", borderColor: "white" }}
-onClick={() => {
-  taskdone(item._id);
-  }}
-  
-/>
-<Button icon={<DeleteOutlined style={{ color: "white" }}/>}
+ 
+
+            <Button icon={<DeleteOutlined style={{ color: "white" }}/>}
 
 style={{ background: "red", borderColor: "white" }}
 onClick={() => {
   delTask(item._id);
-  }}
-  
+}}
+
 />
-
- 
-
-
 
             <hr />
           </div>
         );}
+
       })}
   </>
   );
