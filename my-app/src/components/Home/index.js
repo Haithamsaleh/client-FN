@@ -5,8 +5,8 @@ import { UploadOutlined } from '@ant-design/icons';
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router";
-import { EditOutlined, EllipsisOutlined, SettingOutlined, DeleteOutlined, CheckOutlined, DownloadOutlined } from '@ant-design/icons';
-import { Avatar, Card, Skeleton, Switch, Button, Drawer, Input, DatePicker, Select, Steps, Row, Col, Divider, } from 'antd';
+import { EditOutlined, EllipsisOutlined, SettingOutlined, DeleteOutlined, CheckOutlined, DownloadOutlined , FrownOutlined, MehOutlined, SmileOutlined  } from '@ant-design/icons';
+import { Avatar, Card, Skeleton, Switch, Button, Drawer, Input, DatePicker, Select, Steps, Row, Col, Divider, Rate } from 'antd';
 import './style.css'
 
 import Swal from "sweetalert2";
@@ -16,6 +16,13 @@ const BASE_URL = 'http://localhost:4000';
 
 
 const { Step } = Steps;
+const customIcons = {
+  1: <FrownOutlined />,
+  2: <FrownOutlined />,
+  3: <MehOutlined />,
+  4: <SmileOutlined />,
+  5: <SmileOutlined />,
+};
 
 const Home = () => {
   const { id } = useParams();
@@ -170,7 +177,7 @@ const Home = () => {
 
         // console.log(item._id);
         if (item.complete == false && item.isdone == false) {
-          return <div key={I}>
+          return <div style={{ margin: '16px 16px 16px 16px' }} key={I}>
             <h2>name: {item.task}</h2>
             <h2>date: {item.date}</h2>
             <p>{item.importance}</p>
@@ -180,27 +187,31 @@ const Home = () => {
         <Step title="Step 2" description="This is a description." />
         <Step title="Step 3" description="This is a description." />
         <Step  onClick={() => {
-                taskdone(item._id);
-              }} title="Step 3" description="This is a description." />
+          taskdone(item._id);
+        }} title="Step 3" description="This is a description." />
       </Steps>
+      <Rate disabled allowHalf  defaultValue={item.importance} />
+      <br/>
+      <Rate disabled defaultValue={item.importance} character={({ index }) => customIcons[index + 1]} />
+<br/>
             <Button icon={<CheckOutlined style={{ color: "white" }} />
             }
-
-              style={{ background: "green", borderColor: "white" }}
-              onClick={() => {
-                taskdone(item._id);
-              }}
-
+            
+            style={{ background: "green", borderColor: "white" }}
+            onClick={() => {
+              taskdone(item._id);
+            }}
+            
             />
                
             <Button icon={<DeleteOutlined style={{ color: "white" }} />}
 
-              style={{ background: "red", borderColor: "white" }}
-              onClick={() => {
-                delTask(item._id);
-              }}
+style={{ background: "red", borderColor: "white" }}
+onClick={() => {
+  delTask(item._id);
+}}
 
-            />
+/>
             <hr />
 
             <br />
@@ -208,31 +219,35 @@ const Home = () => {
 
           </div>;
 
-        } else {
-          return (
+} else {
+  return (
+    
 
-
-            <div key={I}>
+    <div style={{ margin: '16px 16px 16px 16px' }} key={I}>
                 <del>
 
               <h2 style={{ color: "red" }}>name: {item.task}</h2>
               <h2 style={{ color: "red" }}>date: {item.date}</h2>
               <p style={{ color: "red" }}>{item.importance}</p>
-                </del>
+              <Rate disabled allowHalf  defaultValue={item.importance} />
+              <br/>
+              <Rate disabled defaultValue={item.importance} character={({ index }) => customIcons[index + 1]} />
 
+                </del>
+                <br/>
 
 
 
 
               <Button icon={<DeleteOutlined style={{ color: "white" }} />}
 
-                style={{ background: "red", borderColor: "white" }}
-                onClick={() => {
-                  delTask(item._id);
-                }}
+style={{ background: "red", borderColor: "white" }}
+onClick={() => {
+  delTask(item._id);
+}}
 
-              />
-
+/>
+              
               <hr />
             </div>
           );
