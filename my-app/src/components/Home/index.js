@@ -182,7 +182,7 @@ const Home = () => {
             <h2>date: {item.date}</h2>
             <p>{item.importance}</p>
             <br/>
-            <Steps current={current} onChange={onChange}>
+            <Steps  current={item.importance} onChange={onChange}>
         <Step title="Step 1" description="This is a description." />
         <Step title="Step 2" description="This is a description." />
         <Step title="Step 3" description="This is a description." />
@@ -258,4 +258,4 @@ onClick={() => {
   );
 };
 export default Home;
-//stoped here :bug(all steps move together) 
+//stoped here :bug(need to add steps in to todo Schema ) 
