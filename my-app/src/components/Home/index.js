@@ -258,4 +258,4 @@ onClick={() => {
   );
 };
 export default Home;
-//stoped here :bug(need to add steps in to todo Schema ) 
+//stoped here :need to make steps fun 
